@@ -437,7 +437,7 @@
       }
 
       for (const e of enemies) {
-        if (rectsIntersect(player, e)) {
+        if (player && player.alive && rectsIntersect(player, e)) {
           playerHit();
         }
       }
@@ -477,7 +477,7 @@
     function update(dt) {
       if (!gameRunning) return;
 
-      if (player.alive) {
+      if (player && player.alive) {
         let dx = 0;
         let dy = 0;
         if (keys['w'] || keys['arrowup']) dy = -1;
@@ -560,7 +560,7 @@
 
       for (const b of bullets) b.draw();
       for (const b of enemyBullets) b.draw();
-      if (player.alive) player.draw();
+      if (player && player.alive) player.draw();
       for (const e of enemies) e.draw();
       for (const p of particles) p.draw();
     }
