@@ -241,8 +241,21 @@
       draw() {
         ctx.save();
         ctx.translate(this.x + this.width / 2, this.y + this.height / 2);
-        const angle = Math.atan2(this.dir.y, this.dir.x);
-        ctx.rotate(angle + Math.PI / 2);
+
+        if (this.isPlayer) {
+          const pulse = 1 + Math.sin(Date.now() / 200) * 0.15;
+          ctx.shadowBlur = 20 * pulse;
+          ctx.shadowColor = this.color;
+          ctx.strokeStyle = this.color;
+          ctx.lineWidth = 2;
+          ctx.globalAlpha = 0.4;
+          ctx.beginPath();
+          ctx.arc(0, 0, 28 * pulse, 0, Math.PI * 2);
+          ctx.stroke();
+          ctx.globalAlpha = 1;
+        }
+
+        ctx.rotate(Math.atan2(this.dir.y, this.dir.x) + Math.PI / 2);
 
         ctx.fillStyle = this.color;
         ctx.fillRect(-this.width / 2, -this.height / 2, this.width, this.height);
@@ -297,12 +310,14 @@
       }
 
       draw() {
+        ctx.save();
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = this.color;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fillStyle = this.color;
         ctx.fill();
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = this.color;
+        ctx.restore();
       }
     }
 
